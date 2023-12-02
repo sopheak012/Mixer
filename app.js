@@ -1,61 +1,90 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const request = require('request');
-const dotenv = require('dotenv');
+const SpotifyWebApi = require("spotify-web-api-node");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const path = require("path");
+require("dotenv").config();
 
-const my_client_id = process.env.CLIENT_ID; // Your Client ID
-const client_secret = process.env.CLIENT_SECRET; // Your secret
-const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/index.html', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.get('/home', (req, res) => {
-  res.sendFile(__dirname + '/home.htm');
-});
-
-app.listen(3000),
-  () => {
-    console.log('server has started on port 3000');
-  };
-
-app.get('/login', function(req, res) {
-  var scopes =
-    'user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative ';
-  res.redirect(
-    'https://accounts.spotify.com/authorize' +
-      '?response_type=code' +
-      '&client_id=' +
-      my_client_id +
-      (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-      '&redirect_uri=' +
-      encodeURIComponent(redirect_uri)
-  );
-});
-
-app.get('/callback', function(req, res) {
-  let code = req.query.code || null;
-  let authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    form: {
-      code: code,
-      redirect_uri,
-      grant_type: 'authorization_code'
-    },
-    headers: {
-      Authorization:
-        'Basic ' +
-        new Buffer(my_client_id + ':' + client_secret).toString('base64')
-    },
-    json: true
-  };
-  request.post(authOptions, function(error, response, body) {
-    var access_token = body.access_token;
-    let uri = 'http://localhost:3000/home';
-    res.redirect(uri + '?access_token=' + access_token);
+app.post("/login", (req, res) => {
+  const code = req.body.code;
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.CLEANIFY_FRONTEND_URL,
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
+
+  console.log("API Route: /login");
+  spotifyApi
+    .authorizationCodeGrant(code)
+    .then((data) => {
+      res.json({
+        accessToken: data.body.access_token,
+        refreshToken: data.body.refresh_token,
+        expiresIn: data.body.expires_in,
+      });
+    })
+    .catch((err) => {
+      res.sendStatus(400);
+    });
+});
+
+app.post("/refresh", (req, res) => {
+  console.log("API Route: /refresh");
+  const refreshToken = req.body.refreshToken;
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.CLEANIFY_FRONTEND_URL,
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    refreshToken,
+  });
+
+  spotifyApi
+    .refreshAccessToken()
+    .then((data) => {
+      res.json({
+        accessToken: data.body.accessToken,
+        expiresIn: data.body.expiresIn,
+      });
+    })
+    .catch((err) => {
+      console.log("Error when refreshing access token", err);
+      res.sendStatus(400);
+    });
+});
+
+app.post("/logout", (req, res) => {
+  console.log("API Route: /logout");
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.CLEANIFY_FRONTEND_URL,
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  });
+  spotifyApi.resetCredentials();
+  res.sendStatus(200);
+});
+
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (_, res) => {
+  console.log("API Route: catch-all (*)");
+  res.sendFile(path.join(__dirname, "client/build", "index.html"), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
+
+const API_PORT = process.env.PORT || 4000;
+
+app.listen(API_PORT, (err) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(`Server live at ${API_PORT}`);
 });
