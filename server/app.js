@@ -79,7 +79,7 @@ app.get("*", (_, res) => {
   });
 });
 
-const API_PORT = process.env.PORT || 4000;
+const API_PORT = process.env.PORT || 9000;
 
 app.listen(API_PORT, (err) => {
   if (err) {
