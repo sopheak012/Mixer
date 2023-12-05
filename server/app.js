@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/login", (req, res) => {
   const code = req.body.code;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: process.env.CLEANIFY_FRONTEND_URL,
+    redirectUri: process.env.Mixer_FRONTEND_URL,
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
@@ -37,7 +37,7 @@ app.post("/refresh", (req, res) => {
   console.log("API Route: /refresh");
   const refreshToken = req.body.refreshToken;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: process.env.CLEANIFY_FRONTEND_URL,
+    redirectUri: process.env.Mixer_FRONTEND_URL,
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     refreshToken,
@@ -60,7 +60,7 @@ app.post("/refresh", (req, res) => {
 app.post("/logout", (req, res) => {
   console.log("API Route: /logout");
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: process.env.CLEANIFY_FRONTEND_URL,
+    redirectUri: process.env.Mixer_FRONTEND_URL,
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });

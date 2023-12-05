@@ -16,7 +16,7 @@ export default function useAuth(code) {
 
   useEffect(() => {
     axios
-      .post(`${process.env.REACT_APP_CLEANIFY_BACKEND_URL}/login`, {
+      .post(`${process.env.REACT_APP_Mixer_BACKEND_URL}/login`, {
         code: code,
       })
       .then((res) => {
@@ -37,7 +37,7 @@ export default function useAuth(code) {
     if (!refreshToken || !expiresIn) return;
     const interval = setInterval(() => {
       axios
-        .post(`${process.env.CLEANIFY_BACKEND_URL}/refresh`, {
+        .post(`${process.env.Mixer_BACKEND_URL}/refresh`, {
           refreshToken,
         })
         .then((res) => {
