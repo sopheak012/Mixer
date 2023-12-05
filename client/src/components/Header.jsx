@@ -144,32 +144,6 @@ const Header = ({ username }) => {
         w="full"
         overflowY="hidden"
       >
-        <chakra.div
-          height="40px"
-          display="flex"
-          flexDirection="col"
-          justifyContent="center"
-          alignItems="center"
-          bgColor="#36b864"
-        >
-          <Text
-            fontSize="sm"
-            color="white"
-            fontWeight="bold"
-            textAlign="center"
-          >
-            <Link
-              as="u"
-              href="https://github.com/sopheak012/Mixer"
-              target="_blank"
-              rel="noopener noreferrer"
-              color="white"
-            >
-              ⭐ Star this repo on Github to support ⭐
-            </Link>
-          </Text>
-        </chakra.div>
-
         <chakra.div h="4.5rem" mx="auto" maxW="1200px">
           <Flex w="full" h="full" px="6" align="center" justify="space-between">
             <Flex align="center">

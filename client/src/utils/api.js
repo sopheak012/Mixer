@@ -9,7 +9,7 @@ instance.interceptors.request.use((config) => {
   if (token) {
     config.headers = {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     };
   }
 
