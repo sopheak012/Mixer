@@ -35,7 +35,7 @@ const Header = ({ username }) => {
 
   const handleLogout = () => {
     axios
-      .post(`${process.env.REACT_APP_Mixer_BACKEND_URL}/logout`)
+      .post(`${import.meta.env.VITE_REACT_APP_Mixer_BACKEND_URL}/logout`)
       .then(() => {
         localStorage.removeItem("api-key");
         localStorage.setItem("logout", true);
