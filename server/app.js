@@ -13,9 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/login", (req, res) => {
   const code = req.body.code;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: import.meta.env.VITE_Mixer_FRONTEND_URL,
-    clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-    clientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.Mixer_FRONTEND_URL,
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
 
   console.log("API Route: /login");
@@ -37,9 +37,9 @@ app.post("/refresh", (req, res) => {
   console.log("API Route: /refresh");
   const refreshToken = req.body.refreshToken;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: import.meta.env.VITE_Mixer_FRONTEND_URL,
-    clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-    clientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.Mixer_FRONTEND_URL,
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     refreshToken,
   });
 
@@ -60,9 +60,9 @@ app.post("/refresh", (req, res) => {
 app.post("/logout", (req, res) => {
   console.log("API Route: /logout");
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: import.meta.env.VITE_Mixer_FRONTEND_URL,
-    clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-    clientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
+    redirectUri: process.env.Mixer_FRONTEND_URL,
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
   spotifyApi.resetCredentials();
   res.sendStatus(200);
@@ -79,7 +79,7 @@ app.get("*", (_, res) => {
   });
 });
 
-const API_PORT = import.meta.env.VITE_PORT || 9000;
+const API_PORT = process.env.PORT || 9000;
 
 app.listen(API_PORT, (err) => {
   if (err) {

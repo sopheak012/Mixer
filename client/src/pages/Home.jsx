@@ -318,8 +318,6 @@ const Home = ({ code }) => {
         user.id
       );
       setPlaylists(await getPlaylists());
-      console.log(newPlaylist.id);
-      console.log(newPlaylist);
 
       let allCleanSongs = [...cleanTrackIDs, ...cleanVersionTrackIDs];
       let remainingSongs = [];
@@ -387,7 +385,7 @@ const Home = ({ code }) => {
                   (mixerStatus && !wantedExplicit)
                 }
               >
-                Mixer Playlist
+                Clean Playlist
               </Button>
 
               <Button
