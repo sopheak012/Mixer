@@ -385,7 +385,7 @@ const Home = ({ code }) => {
                   (mixerStatus && !wantedExplicit)
                 }
               >
-                Clean Playlist
+                Generate Playlist
               </Button>
 
               <Button
@@ -401,7 +401,7 @@ const Home = ({ code }) => {
                   (mixerStatus && wantedExplicit)
                 }
               >
-                Explicitify Playlist
+                Edit Playlist
               </Button>
 
               <Button
