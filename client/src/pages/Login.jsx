@@ -38,7 +38,7 @@ function Login() {
             letterSpacing={{ base: "normal", md: "tight" }}
             color={useColorModeValue("gray.900", "gray.100")}
           >
-            Clean your{" "}
+            Create{" "}
             <Text
               display={{ base: "block", lg: "inline" }}
               w="full"
@@ -56,8 +56,8 @@ function Login() {
             fontSize={{ base: "lg", md: "xl" }}
             color={useColorModeValue("gray.600", "gray.300")}
           >
-            Mixer allows you to easily create completely clean or explicit
-            versions of your Spotify playlists
+            Mixer allows you to easily create or edit versions of your Spotify
+            playlists
           </chakra.p>
           <Stack
             direction={{ base: "column", sm: "row" }}
