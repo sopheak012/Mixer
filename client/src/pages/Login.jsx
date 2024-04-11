@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   chakra,
 } from "@chakra-ui/react";
-import MixerHomePage from "../assets/MixerHomePageV2.png";
+import MixerHomePage from "../assets/HomePage.jpg";
 import Header from "../components/Header";
 
 function Login() {
